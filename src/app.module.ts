@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { UserModule } from './modules/users/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { UserEntity } from './modules/users/user.entity';
+import { LibrarySystemDatabaseConfig } from './config/database.config';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    UserModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    LibrarySystemDatabaseConfig([UserEntity])
+  ],
 })
 export class AppModule {}
